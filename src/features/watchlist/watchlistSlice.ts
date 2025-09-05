@@ -31,7 +31,7 @@ interface WatchlistState {
 }
 
 // Loading watchlist from localStorage for a specific user
-const loadState = (address?: string): WatchlistState => {
+const loadState = (): WatchlistState => {
   // const key = `watchlist_${address}`;
 
   //  Temporarily disabling the address check (not required now)
@@ -70,7 +70,7 @@ const loadState = (address?: string): WatchlistState => {
   };
 };
 
-const saveState = (state: WatchlistState, address?: string) => {
+const saveState = (state: WatchlistState) => {
   const key = "watchlist";
   // not required as of now
   // if (!address) return;
@@ -165,7 +165,7 @@ const watchlistSlice = createSlice({
           ...action.payload.token,
           holdings: action.payload.token.holdings ?? 0,
         });
-        saveState(state, action.payload.address);
+        saveState(state);
       }
     },
     removeToken: (
@@ -173,7 +173,7 @@ const watchlistSlice = createSlice({
       action: PayloadAction<{ id: string; address?: string }>
     ) => {
       state.tokens = state.tokens.filter((t) => t.id !== action.payload.id);
-      saveState(state, action.payload.address);
+      saveState(state);
     },
     updateHoldings: (
       state,
@@ -182,7 +182,7 @@ const watchlistSlice = createSlice({
       const token = state.tokens.find((t) => t.id === action.payload.id);
       if (token) {
         token.holdings = action.payload.holdings;
-        saveState(state, action.payload.address);
+        saveState(state);
       }
     },
     updateTokenPrices: (
@@ -214,8 +214,8 @@ const watchlistSlice = createSlice({
     ) => {
       state.searchResults = action.payload;
     },
-    loadWatchlist: (state, action: PayloadAction<{ address: string }>) => {
-      const loaded = loadState(action.payload.address);
+    loadWatchlist: (state) => {
+      const loaded = loadState();
       state.tokens = loaded.tokens;
     },
   },
