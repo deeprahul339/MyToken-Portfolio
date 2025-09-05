@@ -26,14 +26,11 @@ import TokenRow from "./TokenRow";
 import AppTypography from "./common/AppTypography";
 
 interface WatchListTableProps {
-  isWalletConnected: boolean;
+  isWalletConnected?: boolean;
   walletAddress: string | undefined;
 }
 
-const WatchlistTable: React.FC<WatchListTableProps> = ({
-  isWalletConnected,
-  walletAddress,
-}) => {
+const WatchlistTable: React.FC<WatchListTableProps> = ({ walletAddress }) => {
   const dispatch = useAppDispatch();
   const tokens = useAppSelector((state: RootState) => state.watchlist.tokens);
 
@@ -101,24 +98,24 @@ const WatchlistTable: React.FC<WatchListTableProps> = ({
   const tableCellStyle = {
     color: "#ffffff",
   };
-
-  if (!isWalletConnected) {
-    return (
-      <Box
-        sx={{
-          mt: 3,
-          p: 4,
-          textAlign: "center",
-          backgroundColor: "#121212",
-          borderRadius: 2,
-        }}
-      >
-        <AppTypography variant="h3" color="#9ca3af">
-          Please connect your wallet to view your watchlist 🔑
-        </AppTypography>
-      </Box>
-    );
-  }
+  // commented as of now to show the watchlist to user without login
+  // if (!isWalletConnected) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         mt: 3,
+  //         p: 4,
+  //         textAlign: "center",
+  //         backgroundColor: "#121212",
+  //         borderRadius: 2,
+  //       }}
+  //     >
+  //       <AppTypography variant="h3" color="#9ca3af">
+  //         Please connect your wallet to view your watchlist 🔑
+  //       </AppTypography>
+  //     </Box>
+  //   );
+  // }
 
   if (tokens.length === 0) {
     return (

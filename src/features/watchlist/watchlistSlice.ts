@@ -32,16 +32,19 @@ interface WatchlistState {
 
 // Loading watchlist from localStorage for a specific user
 const loadState = (address?: string): WatchlistState => {
-  const key = `watchlist_${address}`;
-  if (!address) {
-    return {
-      tokens: [],
-      trending: [],
-      searchResults: [],
-      loading: false,
-      error: null,
-    };
-  }
+  // const key = `watchlist_${address}`;
+
+  //  Temporarily disabling the address check (not required now)
+  // if (!address) {
+  //   return {
+  //     tokens: [],
+  //     trending: [],
+  //     searchResults: [],
+  //     loading: false,
+  //     error: null,
+  //   };
+  // }
+  const key = "watchlist";
   try {
     const data = localStorage.getItem(key);
     if (data) {
@@ -68,8 +71,9 @@ const loadState = (address?: string): WatchlistState => {
 };
 
 const saveState = (state: WatchlistState, address?: string) => {
-  const key = `watchlist_${address}`;
-  if (!address) return;
+  const key = "watchlist";
+  // not required as of now
+  // if (!address) return;
   try {
     localStorage.setItem(key, JSON.stringify({ tokens: state.tokens }));
   } catch (err) {

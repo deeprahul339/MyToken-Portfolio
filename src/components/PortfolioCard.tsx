@@ -19,7 +19,6 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
   total,
   lastUpdated,
   data,
-  isWalletConnected,
 }) => {
   const { isMobile, isTablet } = useBreakpoints();
 
@@ -49,20 +48,21 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
             Portfolio Total
           </AppTypography>
           <AppTypography variant="h1" color="white" sx={{ mt: 1 }}>
-            {isWalletConnected ? `$${total.toLocaleString()}` : "--"}
+            {/* removed wallet connected check */}
+            {/* {isWalletConnected ? `$${total.toLocaleString()}` : "--"} */}
+            {`$${total.toLocaleString()}`}
           </AppTypography>
         </Box>
-        {isWalletConnected && (
-          <Box>
-            <AppTypography
-              variant="caption"
-              color="#9ca3af"
-              sx={{ mt: 2, display: "block" }}
-            >
-              Last updated: {lastUpdated}
-            </AppTypography>
-          </Box>
-        )}
+
+        <Box>
+          <AppTypography
+            variant="caption"
+            color="#9ca3af"
+            sx={{ mt: 2, display: "block" }}
+          >
+            Last updated: {lastUpdated}
+          </AppTypography>
+        </Box>
       </Box>
 
       {/* Right Section */}
@@ -79,90 +79,72 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
         <AppTypography variant="subtitle" color="#9ca3af">
           Portfolio Total
         </AppTypography>
-        {isWalletConnected ? (
-          hasTokens ? (
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie
-                  data={data}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={70}
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Legend
-                  layout={isMobile ? "horizontal" : "vertical"}
-                  align={isMobile ? "left" : "right"}
-                  verticalAlign={isMobile ? "bottom" : "top"}
-                  content={({ payload }) => (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                        maxHeight: "180px",
-                        overflowY: "auto",
-                        overflowX: "hidden",
-                        pr: 1,
-                        "&::-webkit-scrollbar": { display: "none" },
-                        scrollbarWidth: "none",
-                        msOverflowStyle: "none",
-                      }}
-                    >
-                      {payload?.map((entry: any, index: number) => (
-                        <Box
-                          key={`legend-${index}`}
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            width: isMobile
-                              ? "300px"
-                              : isTablet
-                              ? "250px"
-                              : "400px",
-                            flex: isMobile ? "1 1 45%" : "1 1 auto",
-                            px: 1,
-                          }}
+        {hasTokens ? (
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={50}
+                outerRadius={70}
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Legend
+                layout={isMobile ? "horizontal" : "vertical"}
+                align={isMobile ? "left" : "right"}
+                verticalAlign={isMobile ? "bottom" : "top"}
+                content={({ payload }) => (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      maxHeight: "180px",
+                      overflowY: "auto",
+                      overflowX: "hidden",
+                      pr: 1,
+                      "&::-webkit-scrollbar": { display: "none" },
+                      scrollbarWidth: "none",
+                      msOverflowStyle: "none",
+                    }}
+                  >
+                    {payload?.map((entry: any, index: number) => (
+                      <Box
+                        key={`legend-${index}`}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: isMobile
+                            ? "300px"
+                            : isTablet
+                            ? "250px"
+                            : "400px",
+                          flex: isMobile ? "1 1 45%" : "1 1 auto",
+                          px: 1,
+                        }}
+                      >
+                        <AppTypography
+                          variant="body"
+                          sx={{ color: entry.color }}
                         >
-                          <AppTypography
-                            variant="body"
-                            sx={{ color: entry.color }}
-                          >
-                            {entry.value}
-                          </AppTypography>
-                          <AppTypography
-                            variant="body"
-                            sx={{ color: "#A1A1AA" }}
-                          >
-                            {entry.payload.value}%
-                          </AppTypography>
-                        </Box>
-                      ))}
-                    </Box>
-                  )}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <AppTypography
-              variant="h3"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                mt: "40px",
-              }}
-              color="#9ca3af"
-            >
-              No tokens in your portfolio yet. Add some to see your chart 📊
-            </AppTypography>
-          )
+                          {entry.value}
+                        </AppTypography>
+                        <AppTypography variant="body" sx={{ color: "#A1A1AA" }}>
+                          {entry.payload.value}%
+                        </AppTypography>
+                      </Box>
+                    ))}
+                  </Box>
+                )}
+              />
+            </PieChart>
+          </ResponsiveContainer>
         ) : (
           <AppTypography
             variant="h3"
@@ -174,7 +156,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({
             }}
             color="#9ca3af"
           >
-            Connect your wallet to view portfolio 📌
+            No tokens in your portfolio yet. Add some to see your chart 📊
           </AppTypography>
         )}
       </Box>
