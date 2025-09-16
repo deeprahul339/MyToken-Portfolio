@@ -261,7 +261,12 @@ const TokenModal: React.FC<TokenModalProps> = ({
         }}
       >
         {isMobile && (
-          <AppButton label="cancel" onClick={onClose} border="10px" />
+          <AppButton
+            label="Cancel"
+            onClick={onClose}
+            border="10px"
+            bgColor="#52525B"
+          />
         )}
 
         <AppButton
